@@ -1,0 +1,110 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.imageWrapper {
+  flex-shrink: 0;
+}
+
+.profileImage {
+  border-radius: 50%;
+  object-fit: cover;
+  /* border: 4px solid var(--primary); Removed as requested */
+  box-shadow: 0 0 20px var(--shadow-color); /* Dynamic shadow color */
+  transition: box-shadow 0.3s ease;
+}
+
+.profileImage:hover {
+  box-shadow: 0 0 30px var(--shadow-color);
+}
+
+.textContent {
+  flex: 1;
+  text-align: left;
+}
+
+.name {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.highlight {
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.bio {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  color: var(--foreground);
+  text-align: justify; /* Justified text as requested */
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .textContent {
+    text-align: center;
+  }
+
+  .bio {
+    text-align: justify; /* Keep justified on mobile too, or center if preferred */
+  }
+
+  .socials {
+    justify-content: center;
+  }
+
+  .name {
+    font-size: 2.5rem;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  color: var(--primary);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
