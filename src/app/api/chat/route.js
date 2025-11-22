@@ -28,6 +28,8 @@ export async function POST(req) {
       - If the answer is not in the context, say "I don't have that information about Anuj."
       - Do not make up facts.
       - Keep responses under 3-4 sentences unless asked for details.
+      - IMPORTANT: When providing URLs, emails, or links, format them as markdown links like this: [text](url)
+      - For example: [GitHub](https://github.com/username) or [email](mailto:user@example.com)
     `;
 
     const chat = model.startChat({

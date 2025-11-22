@@ -7,6 +7,18 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Anuj Arora | Full-Stack Developer",
   description: "Portfolio of Anuj Arora, a Backend-Specialized Full-Stack Developer.",
+  icons: {
+    icon: [
+      { url: '/profile.jpg' },
+    ],
+  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  interactiveWidget: 'resizes-content',
 };
 
 export default function RootLayout({ children }) {
