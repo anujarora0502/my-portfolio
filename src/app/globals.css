@@ -67,8 +67,8 @@ button {
 }
 
 .section {
-  padding: 5rem 0;
-  padding-bottom: 12rem; /* Extra bottom padding for chat bar */
+  padding: 4rem 0;
+  position: relative;
 }
 
 .section-title {

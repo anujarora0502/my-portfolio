@@ -1,3 +1,7 @@
+.contactSection {
+  padding-bottom: 10rem !important; /* Ensure space for chatbot */
+}
+
 .subtitle {
   text-align: center;
   max-width: 600px;

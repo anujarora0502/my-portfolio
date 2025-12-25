@@ -7,7 +7,7 @@ export default function Contact() {
   const { personalInfo } = portfolioData;
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" className={`section ${styles.contactSection}`}>
       <div className="container">
         <h2 className="section-title">Get In Touch</h2>
         <p className={styles.subtitle}>
