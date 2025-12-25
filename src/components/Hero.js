@@ -12,7 +12,7 @@ export default function Hero() {
         <div className={styles.contentWrapper}>
           <div className={styles.imageWrapper}>
             <Image 
-              src="/profile.jpg" 
+              src="/images/profile.png" 
               alt={personalInfo.name} 
               width={300} 
               height={300} 

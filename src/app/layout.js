@@ -10,7 +10,7 @@ export const metadata = {
   description: "Portfolio of Anuj Arora, a Backend-Specialized Full-Stack Developer.",
   icons: {
     icon: [
-      { url: '/profile.jpg' },
+      { url: '/images/profile.png' },
     ],
   },
 };
