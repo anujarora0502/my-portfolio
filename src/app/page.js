@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Experience from '@/components/Experience';
+import Toolbox from '@/components/Toolbox';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Chatbot from '@/components/Chatbot';
@@ -22,7 +23,7 @@ export default function Home() {
               "https://www.linkedin.com/in/anujarora0502",
               "https://x.com/eight_bit_byte"
             ],
-            jobTitle: "Backend-Specialized Full-Stack Developer",
+            jobTitle: "Lead Engineer",
             worksFor: {
               "@type": "Organization",
               name: "Samsung Research Institute, Bangalore"
@@ -35,10 +36,15 @@ export default function Home() {
         }}
       />
       <Navbar />
-      <Hero />
-      <Experience />
-      <Projects />
-      <Contact />
+      <div className="page-content">
+        <Hero />
+        <div className="container">
+          <Experience />
+          <Projects />
+          <Toolbox />
+          <Contact />
+        </div>
+      </div>
       <Chatbot />
     </main>
   );

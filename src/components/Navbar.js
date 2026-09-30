@@ -1,71 +1,52 @@
 'use client';
 
 import { useTheme } from './ThemeProvider';
-import { Moon, Sun, Menu, X } from 'lucide-react';
-import { useState } from 'react';
-import Link from 'next/link';
+import { Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import styles from './Navbar.module.css';
+
+const navLinks = [
+  { name: 'Work', href: '#work' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Contact', href: '#contact' },
+];
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <nav className={styles.navbar}>
-      <div className={`container ${styles.navContainer}`}>
-        <Link href="/" className={styles.logo}>
-          Anuj Arora
-        </Link>
+    <header className={`${styles.bar} ${scrolled ? styles.scrolled : ''}`}>
+      <nav className={`container ${styles.inner}`} aria-label="Main">
+        <a href="#top" className={styles.home} aria-label="Anuj Arora, back to top">
+          <Image src="/images/profile.png" alt="" width={28} height={28} className={styles.avatar} priority />
+          <span className={styles.homeText}>Anuj Arora</span>
+        </a>
 
-        {/* Desktop Menu */}
-        <div className={styles.desktopMenu}>
+        <div className={styles.links}>
           {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className={styles.navLink}>
+            <a key={link.name} href={link.href} className={styles.navLink}>
               {link.name}
-            </Link>
+            </a>
           ))}
-          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className={styles.mobileControls}>
-          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <button 
-            className={styles.menuButton} 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+          <button
+            className={styles.navLink}
+            onClick={() => window.dispatchEvent(new CustomEvent('open-chat'))}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            Ask AI
+          </button>
+          <button onClick={toggleTheme} className={styles.theme} aria-label="Toggle light and dark theme">
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className={styles.mobileMenu}>
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
-                className={styles.mobileNavLink}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }

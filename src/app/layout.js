@@ -1,26 +1,30 @@
-import { Inter } from "next/font/google";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] });
+const instrumentSerif = Instrument_Serif({ subsets: ["latin"], variable: "--font-instrument-serif", weight: "400", style: ["normal", "italic"] });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono", weight: ["400", "500"] });
+
+const description = "Anuj Arora is a Lead Engineer at Samsung Ads in Bangalore, working on backend systems and AI agents with Go, Python, Ruby on Rails and React.";
 
 export const metadata = {
-  metadataBase: new URL('https://anujarora.net'), // Replace with your actual domain
+  metadataBase: new URL('https://anujarora.net'),
   title: {
-    default: "Anuj Arora | Full-Stack Developer",
+    default: "Anuj Arora | Lead Engineer, Samsung Ads",
     template: "%s | Anuj Arora"
   },
-  description: "Backend-Specialized Full-Stack Developer with expertise in GoLang, Ruby on Rails, and ReactJS. Building scalable systems and high-performance applications.",
-  keywords: ["Anuj Arora", "Full-Stack Developer", "Backend Developer", "GoLang", "Ruby on Rails", "ReactJS", "Software Engineer", "Web Developer"],
+  description,
+  keywords: ["Anuj Arora", "Lead Engineer", "Samsung Ads", "AI Agents", "CrewAI", "Backend Developer", "GoLang", "Ruby on Rails", "Python", "ReactJS", "Tathya Live", "Software Engineer"],
   authors: [{ name: "Anuj Arora" }],
   creator: "Anuj Arora",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://anujarora.net",
-    title: "Anuj Arora | Full-Stack Developer",
-    description: "Portfolio of Anuj Arora, a Backend-Specialized Full-Stack Developer.",
+    title: "Anuj Arora | Lead Engineer, Samsung Ads",
+    description,
     siteName: "Anuj Arora Portfolio",
     images: [
       {
@@ -33,8 +37,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Anuj Arora | Full-Stack Developer",
-    description: "Backend-Specialized Full-Stack Developer with expertise in GoLang and Ruby on Rails.",
+    title: "Anuj Arora | Lead Engineer, Samsung Ads",
+    description,
     images: ["/images/profile.png"],
     creator: "@eight_bit_byte",
   },
@@ -64,12 +68,13 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   interactiveWidget: 'resizes-content',
+  themeColor: '#131211',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <body className={`${inter.className} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>

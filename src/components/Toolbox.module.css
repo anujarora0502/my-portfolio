@@ -1,0 +1,45 @@
+.grid {
+  list-style: none;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.cardText {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.period {
+  font-family: var(--font-code);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.notes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.notes li {
+  padding-left: 1.1rem;
+  position: relative;
+}
+
+.notes li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+}

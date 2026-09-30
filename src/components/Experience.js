@@ -1,35 +1,37 @@
 import { portfolioData } from '@/data/portfolioData';
 import styles from './Experience.module.css';
-import { Briefcase } from 'lucide-react';
 
 export default function Experience() {
+  const { work } = portfolioData;
+
   return (
-    <section id="experience" className="section">
-      <div className="container">
-        <h2 className="section-title">Work Experience</h2>
-        <div className={styles.timeline}>
-          {portfolioData.experience.map((exp, index) => (
-            <div key={index} className={styles.timelineItem}>
-              <div className={styles.timelineMarker}>
-                <Briefcase size={20} />
-              </div>
-              <div className={styles.timelineContent}>
-                <div className={styles.header}>
-                  <div>
-                    <h3 className={styles.role}>{exp.role}</h3>
-                    <p className={styles.company}>{exp.company}</p>
-                  </div>
-                  <span className={styles.period}>{exp.period}</span>
-                </div>
-                <ul className={styles.list}>
-                  {exp.description.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+    <section id="work" className="row">
+      <h2 className="row-label"><span>01</span>Work</h2>
+
+      <div>
+        <p className={styles.company}>
+          <span className="serif">{work.team}</span>
+          <span className="muted">, {work.company}</span>
+        </p>
+
+        {work.roles.map((role) => (
+          <div key={role.title} className={styles.role}>
+            <div className={styles.roleHead}>
+              <h3 className={styles.roleTitle}>{role.title}</h3>
+              <span className={styles.period}>{role.period}</span>
             </div>
-          ))}
-        </div>
+            <ul className={`card-grid ${styles.items}`}>
+              {role.items.map((item) => (
+                <li key={item.name} className="card">
+                  <h4 className={styles.itemName}>{item.name}</h4>
+                  <p className={styles.itemText}>{item.summary}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        <p className={styles.beyond}>{work.beyond}</p>
       </div>
     </section>
   );

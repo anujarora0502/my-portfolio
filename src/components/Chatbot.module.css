@@ -427,3 +427,159 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ---- 2026 refresh: glass look to match the 3D scene ---- */
+.toggleBar {
+  background: color-mix(in srgb, var(--card-bg) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  box-shadow: 0 10px 40px -10px color-mix(in srgb, var(--primary) 55%, transparent);
+  justify-content: flex-start;
+}
+
+.toggleBar .typingText {
+  flex: 1;
+  text-align: left;
+}
+
+.aiDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--accent) 45%, var(--primary));
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
+  animation: aiPulse 2.2s ease-out infinite;
+}
+
+@keyframes aiPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
+  70% { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.backdrop {
+  background-color: rgba(2, 6, 23, 0.72);
+}
+
+.widget {
+  background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px -20px color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 4rem 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.headerTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.headerSub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.closeBtn {
+  top: 0.9rem;
+  right: 1rem;
+}
+
+.messages {
+  padding-top: 1.5rem;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.suggestion {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  transition: background 0.2s, transform 0.2s;
+  text-align: left;
+}
+
+.suggestion:hover {
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .messages {
+    padding-top: 1rem;
+  }
+}
+
+.headerPhoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  flex-shrink: 0;
+}
+
+/* ---- readability: solid panel, light dimming behind it ---- */
+.backdrop {
+  background-color: rgba(10, 9, 8, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.widget {
+  background: var(--surface);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+}
+
+.inputWrapper {
+  background: var(--surface);
+}
+
+.botMessage .bubble {
+  background-color: var(--secondary);
+  color: var(--foreground);
+}
+
+.userMessage .bubble {
+  background-color: var(--primary);
+  color: var(--btn-text);
+}
+
+.bubble {
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.suggestion {
+  border-color: var(--rule);
+  background: transparent;
+}
+
+.suggestion:hover {
+  background: var(--secondary);
+  transform: none;
+}
+
+.sendBtn {
+  border-radius: 8px;
+}

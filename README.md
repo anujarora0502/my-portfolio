@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Resume
+
+The Resume links serve `public/Anuj_Arora_Resume.pdf`; replace that file to update it.
+
+## AI assistant
+
+`src/app/api/chat/route.js` answers from `src/data/portfolioData.js` (work, projects,
+skills) using Gemini. Add new projects to `portfolioData.projects` and both the site and the
+assistant pick them up.

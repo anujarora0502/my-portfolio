@@ -1,89 +1,71 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, User } from 'lucide-react';
+import { MessageCircle, X, Send } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { BotLogoIcon } from './BrandIcons';
+import Image from 'next/image';
 import styles from './Chatbot.module.css';
+
+const questions = [
+  "What is Plan Assist and what did Anuj build?",
+  "Tell me about the geo migration",
+  "What is Tathya Live?",
+  "What's Anuj's tech stack?"
+];
+
+const greeting = {
+  role: 'assistant',
+  content: "Hi! I'm Anuj's AI assistant. I know his four-year work story at Samsung Ads, his projects like **Tathya Live**, and his stack. What would you like to know?"
+};
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi! I am Anuj\'s AI assistant. Ask me anything about his experience, skills, or projects.' }
-  ]);
+  const [messages, setMessages] = useState([greeting]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
-  // Typewriter animation state
-  const [displayText, setDisplayText] = useState('');
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  
-  const questions = [
-    "What are anuj's technical skills?",
-    "Tell me about anuj's experience at Samsung",
-    "What projects has anuj worked on?",
-    "What is anuj's expertise in backend development?",
-    "How can I contact anuj?"
-  ];
-
-  // Typewriter effect
+  // Let other parts of the page open the assistant (e.g. the hero button)
   useEffect(() => {
-    if (isOpen) return; // Don't animate when chat is open
+    const open = (e) => {
+      setIsOpen(true);
+      const q = e?.detail?.question;
+      if (q) setInput(q);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') setIsOpen(false); };
+    window.addEventListener('open-chat', open);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('open-chat', open);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, []);
 
-    const currentQuestion = questions[currentQuestionIndex];
-    const typingSpeed = isDeleting ? 50 : 100;
-    const pauseTime = isDeleting ? 500 : 2000;
-
-    const timer = setTimeout(() => {
-      if (!isDeleting) {
-        // Typing
-        if (displayText.length < currentQuestion.length) {
-          setDisplayText(currentQuestion.slice(0, displayText.length + 1));
-        } else {
-          // Finished typing, pause then start deleting
-          setTimeout(() => setIsDeleting(true), pauseTime);
-        }
-      } else {
-        // Deleting
-        if (displayText.length > 0) {
-          setDisplayText(currentQuestion.slice(0, displayText.length - 1));
-        } else {
-          // Finished deleting, move to next question
-          setIsDeleting(false);
-          setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
-        }
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [displayText, isDeleting, currentQuestionIndex, isOpen]);
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 250);
+  }, [isOpen]);
 
   const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Scroll when input is focused (mobile keyboard appears)
   const handleInputFocus = () => {
-    setTimeout(() => {
-      scrollToBottom();
-    }, 300); // Delay to allow keyboard to appear
+    setTimeout(scrollToBottom, 300); // allow the mobile keyboard to appear
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (text) => {
+    const userMessage = (text ?? input).trim();
+    if (!userMessage || isLoading) return;
 
-    const userMessage = input.trim();
+    const history = messages.filter((m) => m !== greeting);
     setInput('');
+    if (inputRef.current) inputRef.current.style.height = 'auto';
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
@@ -91,7 +73,7 @@ export default function Chatbot() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ message: userMessage, history }),
       });
 
       if (!response.ok) throw new Error('Failed to fetch response');
@@ -109,94 +91,46 @@ export default function Chatbot() {
     }
   };
 
-  // Pulse animation state - resets on every page load
-  const [hasOpened, setHasOpened] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-    setHasOpened(true);
-  };
-
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
-      });
-
-      if (!response.ok) throw new Error('Failed to fetch response');
-
-      const data = await response.json();
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
-    } catch (error) {
-      console.error('Chat error:', error);
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again later.' }
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Auto-resize textarea
   const handleInputChange = (e) => {
     setInput(e.target.value);
     e.target.style.height = 'auto';
     e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
   };
 
+  const showSuggestions = messages.length === 1 && !isLoading;
+
   return (
     <>
-      {/* Centered Toggle Bar */}
-      <div className={`${styles.toggleWrapper} ${isOpen ? styles.hidden : ''}`}>
-        <button 
-          className={styles.toggleBar}
-          onClick={handleOpen}
-          aria-label="Open chat"
-        >
-          <span className={styles.typingText}>
-            {displayText}
-            <span className={styles.cursor}>|</span>
-          </span>
-          <Send size={20} className={styles.toggleSendIcon} />
-        </button>
-      </div>
-
-      {/* Backdrop Blur */}
       {isOpen && <div className={styles.backdrop} onClick={() => setIsOpen(false)} />}
 
-      {/* Chat Widget */}
-      <div className={`${styles.widget} ${isOpen ? styles.open : ''}`}>
-        {/* Close Button */}
-        <button 
-          onClick={() => setIsOpen(false)}
-          className={styles.closeBtn}
-          aria-label="Close chat"
-        >
+      <div
+        className={`${styles.widget} ${isOpen ? styles.open : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Chat with Anuj's AI assistant"
+      >
+        <div className={styles.header}>
+          <Image src="/images/profile.png" alt="" width={40} height={40} className={styles.headerPhoto} />
+          <div>
+            <p className={styles.headerTitle}>Ask about Anuj</p>
+            <p className={styles.headerSub}>AI assistant, answers questions about his work</p>
+          </div>
+        </div>
+        <button onClick={() => setIsOpen(false)} className={styles.closeBtn} aria-label="Close chat">
           <X size={20} />
         </button>
 
-        {/* Messages Area */}
         <div className={styles.messages}>
           {messages.map((msg, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`${styles.message} ${msg.role === 'user' ? styles.userMessage : styles.botMessage}`}
             >
               <div className={styles.bubble}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    a: ({node, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer" />
+                    a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
                   }}
                 >
                   {msg.content}
@@ -204,6 +138,15 @@ export default function Chatbot() {
               </div>
             </div>
           ))}
+          {showSuggestions && (
+            <div className={styles.suggestions}>
+              {questions.slice(0, 4).map((q) => (
+                <button key={q} className={styles.suggestion} onClick={() => sendMessage(q)}>
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
           {isLoading && (
             <div className={`${styles.message} ${styles.botMessage}`}>
               <div className={styles.bubble}>
@@ -218,25 +161,25 @@ export default function Chatbot() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input at Bottom */}
         <div className={styles.inputWrapper}>
           <MessageCircle size={20} className={styles.inputIcon} />
           <textarea
+            ref={inputRef}
             value={input}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
                 e.preventDefault();
-                handleSend();
+                sendMessage();
               }
             }}
-            placeholder="Type here..."
+            placeholder="Ask about Plan Assist, the geo migration, Tathya Live..."
             className={styles.inputField}
             rows={1}
           />
           <button
-            onClick={handleSend}
+            onClick={() => sendMessage()}
             disabled={!input.trim() || isLoading}
             className={styles.sendBtn}
             aria-label="Send message"
