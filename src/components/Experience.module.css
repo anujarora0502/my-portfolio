@@ -63,3 +63,36 @@
     gap: 0.15rem;
   }
 }
+
+@media (max-width: 760px) {
+  .company {
+    margin-bottom: 1.5rem;
+  }
+  .company :global(.serif) {
+    display: block;
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .company :global(.muted) {
+    font-size: 0.9rem;
+  }
+  .comma {
+    display: none;
+  }
+  .role + .role {
+    margin-top: 2rem;
+  }
+  .roleHead {
+    margin-bottom: 0.75rem;
+  }
+  .itemName {
+    font-size: 0.97rem;
+  }
+  .itemText {
+    font-size: 0.92rem;
+  }
+  .beyond {
+    margin-top: 2rem;
+    font-size: 1.05rem;
+  }
+}

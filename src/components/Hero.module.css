@@ -87,3 +87,48 @@
     font-size: 1.15rem;
   }
 }
+
+/* Phones: compact profile header with a round photo next to the kicker */
+@media (max-width: 760px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-top: 1.75rem;
+    padding-bottom: 2.5rem;
+  }
+  .figure {
+    order: -1;
+    align-self: flex-start;
+    width: 88px;
+    max-width: 88px;
+    margin-bottom: 1.1rem;
+  }
+  .photo {
+    border-radius: 50%;
+  }
+  .kicker {
+    font-size: 0.74rem;
+    margin-bottom: 0.6rem;
+  }
+  .name {
+    font-size: 3rem;
+    margin-bottom: 1.1rem;
+  }
+  .intro {
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
+  }
+  .about {
+    font-size: 0.95rem;
+    margin-bottom: 1.4rem;
+  }
+  .links {
+    gap: 0.4rem 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+  .ask {
+    font-size: 0.9rem;
+  }
+}

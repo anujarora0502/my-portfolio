@@ -8,7 +8,7 @@ export default function Toolbox() {
     <>
       <section id="skills" className="row">
         <h2 className="row-label"><span>03</span>Skills</h2>
-        <ul className={`card-grid ${styles.grid}`}>
+        <ul className={`card-grid ${styles.grid} ${styles.skillsGrid}`}>
           {Object.entries(skills).map(([group, items]) => (
             <li key={group} className="card">
               <h3 className={styles.cardTitle}>{group}</h3>

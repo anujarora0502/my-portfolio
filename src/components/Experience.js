@@ -11,7 +11,7 @@ export default function Experience() {
       <div>
         <p className={styles.company}>
           <span className="serif">{work.team}</span>
-          <span className="muted">, {work.company}</span>
+          <span className="muted"><span className={styles.comma}>, </span>{work.company}</span>
         </p>
 
         {work.roles.map((role) => (
