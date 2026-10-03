@@ -10,13 +10,13 @@ import styles from './Chatbot.module.css';
 const questions = [
   "What is Plan Assist and what did Anuj build?",
   "Tell me about the geo migration",
-  "What is Tathya Live?",
+  "What is Milo?",
   "What's Anuj's tech stack?"
 ];
 
 const greeting = {
   role: 'assistant',
-  content: "Hi! I'm Anuj's AI assistant. I know his four-year work story at Samsung Ads, his projects like **Tathya Live**, and his stack. What would you like to know?"
+  content: "Hi! I'm Anuj's AI assistant. I know his four-year work story at Samsung Ads, his projects like **Milo**, and his stack. What would you like to know?"
 };
 
 export default function Chatbot() {
@@ -174,7 +174,7 @@ export default function Chatbot() {
                 sendMessage();
               }
             }}
-            placeholder="Ask about Plan Assist, the geo migration, Tathya Live..."
+            placeholder="Ask about Plan Assist, the geo migration, Milo..."
             className={styles.inputField}
             rows={1}
           />

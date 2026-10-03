@@ -13,7 +13,7 @@ ${JSON.stringify(portfolioData, null, 2)}
 HOW THE CONTEXT IS ORGANISED:
 - "work.roles" is Anuj's experience at Samsung Ads by role (Lead Engineer since Jan 2025, Software Engineer Aug 2022 - Dec 2024). Each item has a public "summary" and extra "details" you can use for deeper questions.
 - "work.beyond" covers code reviews, design docs, incidents and architecture reviews.
-- "projects" are personal projects Anuj builds for the love of it (for example Tathya Live at https://tathya.ink).
+- "projects" are personal projects Anuj builds for the love of it (for example Milo at https://milo.strails.net).
 - His resume is downloadable at https://anujarora.net/Anuj_Arora_Resume.pdf.
 
 GUIDELINES:

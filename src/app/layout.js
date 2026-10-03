@@ -2,6 +2,7 @@ import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next"
+import UmamiAnalytics from "@/components/UmamiAnalytics";
 
 const inter = Inter({ subsets: ["latin"] });
 const instrumentSerif = Instrument_Serif({ subsets: ["latin"], variable: "--font-instrument-serif", weight: "400", style: ["normal", "italic"] });
@@ -16,7 +17,7 @@ export const metadata = {
     template: "%s | Anuj Arora"
   },
   description,
-  keywords: ["Anuj Arora", "Lead Engineer", "Samsung Ads", "AI Agents", "CrewAI", "Backend Developer", "GoLang", "Ruby on Rails", "Python", "ReactJS", "Tathya Live", "Software Engineer"],
+  keywords: ["Anuj Arora", "Lead Engineer", "Samsung Ads", "AI Agents", "CrewAI", "Backend Developer", "GoLang", "Ruby on Rails", "Python", "ReactJS", "Milo", "Software Engineer"],
   authors: [{ name: "Anuj Arora" }],
   creator: "Anuj Arora",
   openGraph: {
@@ -79,6 +80,7 @@ export default function RootLayout({ children }) {
           {children}
         </ThemeProvider>
         <Analytics />
+        <UmamiAnalytics />
       </body>
     </html>
   );

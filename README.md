@@ -44,3 +44,8 @@ The Resume links serve `public/Anuj_Arora_Resume.pdf`; replace that file to upda
 `src/app/api/chat/route.js` answers from `src/data/portfolioData.js` (work, projects,
 skills) using Gemini. Add new projects to `portfolioData.projects` and both the site and the
 assistant pick them up.
+
+## Analytics
+
+Set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` in Vercel to enable Umami Cloud analytics.
+For a self-hosted Umami instance, also set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`.

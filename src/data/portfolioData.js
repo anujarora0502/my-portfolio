@@ -86,13 +86,13 @@ export const portfolioData = {
   // Projects built for the love of it. Add more entries here.
   projects: [
     {
-      title: "Tathya Live",
-      url: "https://tathya.ink",
-      linkLabel: "tathya.ink",
+      title: "Milo",
+      url: "https://milo.strails.net",
+      linkLabel: "milo.strails.net",
       year: "2026",
       description:
-        "Stand in a crowd on a Mumbai street at night and talk, by voice, to Mahatma Gandhi, Dr. APJ Abdul Kalam, Netaji Subhas Chandra Bose and Albert Einstein on a street stage. They answer back in real time.",
-      stack: "three.js, Blender, Sarvam conversational voice AI, GSAP, Vite"
+        "A voice-first learning experience where students invite Mahatma Gandhi, Dr. APJ Abdul Kalam, Netaji Subhas Chandra Bose or Albert Einstein onto a theatre stage or into their classroom and talk with them in real time.",
+      stack: "TypeScript, three.js, Blender, Sarvam conversational voice AI, Vite"
     }
   ],
 
