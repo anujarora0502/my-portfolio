@@ -174,7 +174,7 @@ export default function Chatbot() {
                 sendMessage();
               }
             }}
-            placeholder="Ask about Plan Assist, the geo migration, Milo..."
+            placeholder="Ask about Anuj's work or Milo..."
             className={styles.inputField}
             rows={1}
           />

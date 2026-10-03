@@ -173,6 +173,8 @@
 
 .inputField {
   flex: 1;
+  width: 100%;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
@@ -415,6 +417,26 @@
   .messages {
     padding: 1rem;
     padding-top: 3rem;
+  }
+
+  .inputWrapper {
+    gap: 0.5rem;
+    padding: 0.75rem;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .inputIcon {
+    display: none;
+  }
+
+  .inputField {
+    padding: 0.55rem 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .sendBtn {
+    padding: 0.5rem;
   }
 }
 
