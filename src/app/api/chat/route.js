@@ -1,7 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { portfolioData } from '@/data/portfolioData';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const systemPrompt = `
 You are the AI assistant on Anuj Arora's portfolio website (anujarora.net).
@@ -28,6 +25,8 @@ GUIDELINES:
 `;
 
 const MAX_HISTORY = 10;
+const SARVAM_URL = 'https://api.sarvam.ai/v1/chat/completions';
+const MODEL = 'sarvam-105b-conversations';
 
 export async function POST(req) {
   try {
@@ -37,35 +36,53 @@ export async function POST(req) {
       return Response.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.SARVAM_API_KEY;
+    if (!apiKey) {
       return Response.json({
-        reply: "I'm currently in demo mode because the API key hasn't been set up yet. Please add your Gemini API key to the .env file to enable real responses."
+        reply: "The assistant isn't configured yet: SARVAM_API_KEY is missing on the server."
       });
     }
 
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-flash-latest',
-      systemInstruction: systemPrompt,
-    });
-
-    // Previous turns from the widget (user/assistant). Gemini needs the history
-    // to start with a user turn and alternate roles.
-    const priorTurns = (Array.isArray(history) ? history : [])
+    // Previous turns from the widget, oldest first: must start with a user turn and alternate.
+    const turns = (Array.isArray(history) ? history : [])
       .filter((m) => m && typeof m.content === 'string' && (m.role === 'user' || m.role === 'assistant'))
       .slice(-MAX_HISTORY)
-      .map((m) => ({
-        role: m.role === 'user' ? 'user' : 'model',
-        parts: [{ text: m.content.slice(0, 2000) }],
-      }));
-    while (priorTurns.length && priorTurns[0].role !== 'user') priorTurns.shift();
-    const cleanHistory = priorTurns.filter((m, i, arr) => i === 0 || m.role !== arr[i - 1].role);
-    if (cleanHistory.length && cleanHistory[cleanHistory.length - 1].role === 'user') cleanHistory.pop();
+      .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
+    while (turns.length && turns[0].role !== 'user') turns.shift();
+    const priorTurns = turns.filter((m, i, arr) => i === 0 || m.role !== arr[i - 1].role);
+    if (priorTurns.length && priorTurns[priorTurns.length - 1].role === 'user') priorTurns.pop();
 
-    const chat = model.startChat({ history: cleanHistory });
-    const result = await chat.sendMessage(message.slice(0, 2000));
-    const text = result.response.text();
+    const res = await fetch(SARVAM_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-subscription-key': apiKey,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...priorTurns,
+          { role: 'user', content: message.slice(0, 2000) },
+        ],
+        temperature: 0.3,
+        max_tokens: 2048,
+      }),
+    });
 
-    return Response.json({ reply: text });
+    if (!res.ok) {
+      console.error('Sarvam API error:', res.status, await res.text());
+      return Response.json({ error: 'Upstream error' }, { status: 502 });
+    }
+
+    const data = await res.json();
+    const choice = data?.choices?.[0];
+    // Strip any <think>...</think> block a reasoning model may include in the content.
+    const text = (choice?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+
+    return Response.json({
+      reply: text || "Sorry, I couldn't put an answer together just now. Please try asking again.",
+    });
   } catch (error) {
     console.error('API Error:', error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
